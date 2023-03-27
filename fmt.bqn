@@ -47,6 +47,8 @@ Box←{
 	¯1↓⥊(∾⟜nl)˘boxed
 }
 
+{
+0<≠•args?
 •Out∘Box "TESTING BOXING CODE!"
 tests←Box¨⟨
 	 3‿4‿5⥊↕50
@@ -164,9 +166,11 @@ expected←⟨
 └∊────────────────────────────────────┘"
 ⟩
 
-•Show tests≡¨expected
-{((+´=≠) tests≡¨expected)?
-	•Out "ALL TESTS PASSED!";
-	•Out "TESTS FAILED: "
-	•Show ({¬𝕩}/{1⊸+↕≠𝕩})tests≡¨expected
+
+	•Show tests≡¨expected
+	{(+´=≠) tests≡¨expected?
+		•Out "ALL TESTS PASSED!";
+		•Out "TESTS FAILED: "
+		•Show ({¬𝕩}/{1⊸+↕≠𝕩})tests≡¨expected
+	};@
 }
