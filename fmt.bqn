@@ -1,5 +1,15 @@
 ⟨Box⟩⇐
 
+
+AddBars←{
+	i‿row←𝕩⋄
+	c←"│↓"⊑˜0=i⋄
+	prefix←' '∾˜c⥊˜1-˜=𝕨⋄
+	prefix↩("│ ")⍟(1≥=𝕨) prefix⋄
+	prefix∾row∾"│"
+}
+Cap←{∾´⟨(⊑𝕨)⥊˜b←+´∧`' '≠a←⊑˘⍉𝕩,1⊑𝕨,'─'⥊˜2-˜≠b↓a,2⊑𝕨⟩}
+
 Fmt←{
 	rk←≢𝕩
 	0=≠rk?
@@ -13,16 +23,8 @@ Fmt←{
 	spaces←{∾⟜' '⍟(0⌈padTarget-≠𝕩)⊢𝕩}¨asC
 	xAsStr←∾´⥊spaces∾¨nl⥊¨˜0⌾(⊑○⌽○⥊)(≢𝕩)⥊(≠⥊𝕩){+´(𝕨⥊·⌽↑⟜1)¨𝕩}×`⌾⌽1↓≢𝕩
 	xAsBox←>{𝕩∾¨' '⥊˜¨(⌈´-⊢)≠¨𝕩}1⊸↓⌾⌽¨(∾⟜' ')⌾(⊑∘⌽){𝕩⊔˜»+`nl=𝕩}xAsStr
-	AddBars←𝕩⊸{
-		i‿row←𝕩⋄
-		c←"│↓"⊑˜0=i⋄
-		prefix←' '∾˜c⥊˜1-˜=𝕨⋄
-		prefix↩("│ ")⍟(1≥=𝕨) prefix⋄
-		prefix∾row∾"│"
-	}
-	Cap←{∾´⟨(⊑𝕨)⥊˜b←+´∧`' '≠a←⊑˘⍉𝕩,1⊑𝕨,'─'⥊˜2-˜≠b↓a,2⊑𝕨⟩}
 	type←" ~"""⊑˜•Type⊑ 𝕩
-	boxed←(⌽⟨'└',type,'┘'⟩⊸Cap○{1↓𝕩}∾⌽∘⊢) ("┌→┐"⊸Cap∾⊢) AddBars˘ (⍉↕∘≠≍<˘)xAsBox
+	boxed←(⌽⟨'└',type,'┘'⟩⊸Cap○{1↓𝕩}∾⌽∘⊢) ("┌→┐"⊸Cap∾⊢) (𝕩⊸AddBars)˘ (⍉↕∘≠≍<˘)xAsBox
 	¯1↓⥊(∾⟜nl)˘boxed
 }
 
@@ -35,15 +37,7 @@ Box←{
 	a←<⎉1⊢padded
 	emptyRow←' '⥊˜≠⊏>⥊a
 	contents←>{(∾𝕊¨)⍟(2<≡)⥊𝕩}{v‿r←𝕩⋄{𝕩∾<emptyRow}⍟r⊢v}¨<˘⍉(⋈¨⥊a)≍«»(≠⥊a){+´(𝕨⥊·⌽↑⟜1)¨𝕩}×`⌽≢a
-	Cap←{∾´⟨(⊑𝕨)⥊˜b←+´∧`' '≠a←⊑˘⍉𝕩,1⊑𝕨,'─'⥊˜2-˜≠b↓a,2⊑𝕨⟩}
-	AddBars←𝕩⊸{
-		i‿row←𝕩⋄
-		c←"│↓"⊑˜0=i⋄
-		prefix←' '∾˜c⥊˜1-˜=𝕨⋄
-		prefix↩("│ ")⍟(1≥=𝕨) prefix⋄
-		prefix∾row∾"│"
-	}
-	boxed←(⌽⟨'└','∊','┘'⟩⊸Cap○{1↓𝕩}∾⌽∘⊢)("┌→┐"⊸Cap∾⊢)AddBars˘(⍉↕∘≠≍<˘)contents
+	boxed←(⌽⟨'└','∊','┘'⟩⊸Cap○{1↓𝕩}∾⌽∘⊢)("┌→┐"⊸Cap∾⊢)(𝕩⊸AddBars)˘(⍉↕∘≠≍<˘)contents
 	¯1↓⥊(∾⟜nl)˘boxed
 }
 
